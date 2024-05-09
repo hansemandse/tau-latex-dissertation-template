@@ -85,11 +85,29 @@
 
 % Font selection
 \RequirePackage[T1]{fontenc}
-\renewcommand{\sffamily}{\fontfamily{phv}\fontseries{mc}\selectfont}
 \RequirePackage[cmbraces]{newtxmath}
 \let\Bbbk\relax
 \RequirePackage{ebgaramond-maths}
 \RequirePackage{garamondlibre}
+
+% Redeclaring some math symbols that
+% ebgaramond-maths loses.
+\DeclareSymbolFont{ntxletters}{OML}{ntxmi}{m}{it}
+\SetSymbolFont{ntxletters}{bold}{OML}{ntxmi}{b}{it}
+\re@DeclareMathSymbol{\leftharpoonup}{\mathrel}{ntxletters}{"28}
+\re@DeclareMathSymbol{\leftharpoondown}{\mathrel}{ntxletters}{"29}
+\re@DeclareMathSymbol{\rightharpoonup}{\mathrel}{ntxletters}{"2A}
+\re@DeclareMathSymbol{\rightharpoondown}{\mathrel}{ntxletters}{"2B}
+\re@DeclareMathSymbol{\triangleleft}{\mathbin}{ntxletters}{"2F}
+\re@DeclareMathSymbol{\triangleright}{\mathbin}{ntxletters}{"2E}
+\re@DeclareMathSymbol{\partial}{\mathord}{ntxletters}{"40}
+\re@DeclareMathSymbol{\flat}{\mathord}{ntxletters}{"5B}
+\re@DeclareMathSymbol{\natural}{\mathord}{ntxletters}{"5C}
+\re@DeclareMathSymbol{\star}{\mathbin}{ntxletters}{"3F}
+\re@DeclareMathSymbol{\smile}{\mathrel}{ntxletters}{"5E}
+\re@DeclareMathSymbol{\frown}{\mathrel}{ntxletters}{"5F}
+\re@DeclareMathSymbol{\sharp}{\mathord}{ntxletters}{"5D}
+\re@DeclareMathAccent{\vec}{\mathord}{ntxletters}{"7E}
 
 % Page geometry and heading handling
 \newlength{\thispaperwidth}
@@ -115,8 +133,6 @@
 \RequirePackage{enumitem}
 \RequirePackage{setspace}
 
-%\setlength{\voffset}{-0.9in}
-
 \newlength\chapterspace
 \setlength\chapterspace{0.4cm}
 \newlength\chapterindent
@@ -135,7 +151,6 @@
 %\renewcommand{\floatpagefraction}{0.75}
 
 % Define the header and footer content.
-
 \pagestyle{fancyplain}
 \fancyhf{}
 \rhead{\thepage}
@@ -143,23 +158,22 @@
 \renewcommand{\footrulewidth}{0pt}
 
 % Define chapter and section heading styles.
-
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
 
 % Part
 \titleformat
-    {\part}[display]{\centering\LARGE\sffamily}
+    {\part}[display]{\centering\LARGE}
     {\partname~\thepart}{0em}
     {\fancyhf{}\cfoot{\thepage}\MakeUppercase{#1}}
 \titleformat
     {name=\part, numberless}[hang]
-    {\centering\LARGE\sffamily}{}{0em}
+    {\centering\LARGE}{}{0em}
     {\fancyhf{}\cfoot{\thepage}\MakeUppercase{#1}}
 
 % Chapter
 \titleformat
-    {\chapter}[block]{\raggedright\LARGE\sffamily%
+    {\chapter}[block]{\raggedright\LARGE%
     \parshape %
     2 %
     0pt \linewidth %
@@ -168,14 +182,14 @@
     {\fancyhf{}\cfoot{\thepage}\MakeUppercase{#1}}
 \titleformat
     {name=\chapter, numberless}[hang]
-    {\raggedright\LARGE\sffamily}{}{0em}
+    {\raggedright\LARGE}{}{0em}
     {\fancyhf{}\cfoot{\thepage}\MakeUppercase{#1}}
 \titlespacing*{\chapter}{0em}{0pt}{70.9pt}
 \titlespacing*{name=\chapter, numberless}{0em}{0pt}{70.9pt}
 
 % Section
 \titleformat
-    {\section}[block]{\raggedright\Large\sffamily%
+    {\section}[block]{\raggedright\Large%
     \parshape %
     2 %
     0pt \linewidth %
@@ -183,13 +197,13 @@
     {\makebox[\chapterindent][l]{\thesection}}{0em}{#1}
 \titleformat
     {name=\section, numberless}[hang]
-    {\raggedright\Large\sffamily}{}{0em}{#1}
+    {\raggedright\Large}{}{0em}{#1}
 \titlespacing*{\section}{0em}{14.2pt}{14.2pt}
 \titlespacing*{name=\section, numberless}{0em}{14.2pt}{14.2pt}
 
 % Subsection
 \titleformat
-    {\subsection}[block]{\raggedright\large\sffamily%
+    {\subsection}[block]{\raggedright\large%
     \parshape %
     2 %
     0pt \linewidth %
@@ -197,13 +211,13 @@
     {\makebox[\chapterindent][l]{\thesubsection}}{0em}{#1}
 \titleformat
     {name=\subsection, numberless}[hang]
-    {\raggedright\large\sffamily}{}{0em}{#1}
+    {\raggedright\large}{}{0em}{#1}
 \titlespacing*{\subsection}{0em}{14.2pt}{14.2pt}
 \titlespacing*{name=\subsection, numberless}{0em}{14.2pt}{14.2pt}
 
 % Subsubsection
 \titleformat
-    {\subsubsection}[block]{\raggedright\normalsize\sffamily%
+    {\subsubsection}[block]{\raggedright\normalsize%
     \parshape %
     2 %
     0pt \linewidth %
@@ -211,11 +225,10 @@
     {\makebox[\chapterindent][l]{\thesubsubsection}}{0em}{#1}
 \titleformat
     {name=\subsubsection, numberless}[hang]
-    {\raggedright\normalsize\sffamily}{}{0em}{#1}
+    {\raggedright\normalsize}{}{0em}{#1}
 \titlespacing*{\subsubsection}{0em}{14.2pt}{14.2pt}
 \titlespacing*{name=\subsubsection, numberless}{0em}{14.2pt}{14.2pt}
 
-%\setlength{\parskip}{14.2pt}
 \setlength{\parskip}{0pt}
 
 % Language support for Finnish and English
@@ -228,10 +241,16 @@
 
 % Smart bibliography handling
 \RequirePackage
-    [backend=biber,
+    [defernumbers=true,
+    backend=biber,
     citestyle=\@citationstyle,
     bibstyle=\@citationstyle,
-    defernumbers=true]{biblatex}
+    natbib=true,
+    sortcites=true,
+    maxbibnames=15,
+    maxcitenames=2,
+    uniquelist=false,
+    sorting=none]{biblatex}
 
 \DefineBibliographyStrings{finnish}{%
   bibliography = {Lähteet},
@@ -248,23 +267,33 @@
 
 % Graphics inclusion and drawing
 \RequirePackage{graphicx}
+% \RequirePackage{tikz}
 
 % Caption formatting
 \RequirePackage
     [format=hang,
     singlelinecheck=false,
-    labelfont={sf,bf,small},
-    font={sf,small},
+    labelfont={bf,small},
+    font={small},
     labelsep={quad}]{caption}
 \renewcommand{\arraystretch}{1.25}
 
 % Code listing handling
 \RequirePackage{listings}
+\lstset{texcl=true, captionpos=b, commentstyle=\tt,%
+        framesep=2mm, frame=bottomline, numbers=left}
 
-\lstset{texcl=true, captionpos=b, commentstyle=\tt}
+% Table handling
+% \RequirePackage{booktabs}
+% \RequirePackage{multicol}
+% \RequirePackage{multirow}
+% \RequirePackage{array}
+% \RequirePackage{tabularx}
+% \RequirePackage{longtable}
 
-% List of symbols and abbreviations
+% List of abbreviations
 \RequirePackage[automake, nonumberlist, nopostdot]{glossaries}
+% \RequirePackage{glossary-mcols}
 
 \newlength\glsnamewidth
 \newglossarystyle{taulong}{%
@@ -282,6 +311,10 @@
     \glossentrydesc{##1}\glspostdescription\space ##2\tabularnewline
     }%
 }
+
+% List of symbols
+% \RequirePackage{nomencl}
+% \makenomenclature
 
 % Table of contents formatting
 \RequirePackage{titletoc}
@@ -336,7 +369,7 @@
 \renewcommand{\thechapter}{\Alph{chapter}}
 \renewcommand{\theHchapter}{\Alph{chapter}}
 \titleformat
-    {\chapter}{\raggedright\LARGE\sffamily%
+    {\chapter}{\raggedright\LARGE%
     \parshape %
     2 %
     0pt \linewidth %
@@ -350,7 +383,6 @@
 
 % Including original article pdf files.
 \RequirePackage{pdfpages}
-
 \includepdfset{%
     offset={0.5\bindingoffsetwidth} 0pt
 }
@@ -363,8 +395,12 @@
 
 % Text hyperlinking
 \RequirePackage{hyperref}
-%\RequirePackage{url}
 \urlstyle{same}
+
+% For algorithms
+% \RequirePackage{algorithm}
+% \RequirePackage{algorithmicx}
+% \RequirePackage{algpseudocode}
 
 %%%%% COMMAND DEFINITIONS %%%%%
 
@@ -427,14 +463,14 @@
     {\raggedleft\huge\@title\par}
     {\raggedleft\LARGE\@subtitle\par}
     \vfill
-    {\raggedleft\sffamily\large\color{red}\@firstprinttext\par}
+    {\raggedleft\large\color{red}\@firstprinttext\par}
     \vspace{42pt}
     \clearpage
     \thispagestyle{empty}
     \hspace{0pt}\vfill
     \noindent\@librarytext
     \vfill
-    {\raggedleft\sffamily\large\color{red}\@lastprinttext\par}
+    {\raggedleft\large\color{red}\@lastprinttext\par}
     \vspace{42pt}
     \cleardoublepage
 }
@@ -533,19 +569,16 @@
 
 % Make the list of publications
 \newcommand{\listofpublications}{
-    \begin{refsection}
     \begin{refcontext}[labelprefix=\@publicationname\addspace, sorting=none]
-    \nocite{*}
     \emergencystretch=2em
     \setlength{\bibitemsep}{8.5pt}
-    \DeclareFieldFormat{labelnumber}{\ifinteger{##1}{\RN{##1}}{##1}}
+    \DeclareFieldFormat{labelnumber}{\RN{##1}}
     \DeclareFieldFormat{labelnumberwidth}{##1}
     \printbibliography[%
         title=\@listpublicationname,%
         keyword=thisdissertation,%
         env=thisdissertationstyle]
     \end{refcontext}
-    \end{refsection}
     \settowidth{\labelnumberwidth}{888}
 }
 
@@ -639,7 +672,7 @@
     \refstepcounter{publication}
     \addcontentsline{toc}{chapter}{\@publicationname{} \Roman{publication}}
     \hspace*{0pt}\vfill
-    {\centering\LARGE\sffamily
+    {\centering\LARGE
         \MakeUppercase{\@publicationname}\\
         \Roman{publication}
     \par}
@@ -648,38 +681,38 @@
   {\centering\textbf{\usebibmacro{title}}\par}%
   \medskip
   {\centering\nopunct%
-  \printnames[][-\value{listtotal}]{author}\par}%
+    \printnames[][-\value{listtotal}]{author}\par}%
   \bigskip
   {\centering\small%
-  \ifentrytype{article}{%
-  \usebibmacro{journal+issuetitle}%
-  \usebibmacro{byeditor+others}%
-  \usebibmacro{note+pages}%
-  }{}%
-  \if@apacitation
-  \ifentrytype{inbook}{%
-  \usebibmacro{in:}%
-  \usebibmacro{editor+trans}%
-  \usebibmacro{maintitle+booktitle}%
-  \printlist{publisher}%
-  }{}
-  \else
-  \ifentrytype{incollection}{%
-  \usebibmacro{in:}%
-  \usebibmacro{maintitle+booktitle}%
-  \usebibmacro{byeditor+others}%
-  \printfield{edition}%
-  \iffieldundef{maintitle}
-    {\printfield{volume}%
-     \printfield{part}}{}%
-  \printfield{volumes}%
-  \usebibmacro{series+number}%
-  \printfield{note}%
-  \usebibmacro{publisher+location+date}%
-  \usebibmacro{chapter+pages}%
-  }{}%
-  \fi
-  \usebibmacro{addendum+pubstate}\par}%
+    \ifentrytype{article}{%
+    \usebibmacro{journal+issuetitle}%
+    \usebibmacro{byeditor+others}%
+    \usebibmacro{note+pages}%
+    }{}%
+    \if@apacitation
+    \ifentrytype{inbook}{%
+    \usebibmacro{in:}%
+    \usebibmacro{editor+trans}%
+    \usebibmacro{maintitle+booktitle}%
+    \printlist{publisher}%
+    }{}
+    \else
+    \ifentrytype{incollection}{%
+    \usebibmacro{in:}%
+    \usebibmacro{maintitle+booktitle}%
+    \usebibmacro{byeditor+others}%
+    \printfield{edition}%
+    \iffieldundef{maintitle}
+      {\printfield{volume}%
+       \printfield{part}}{}%
+    \printfield{volumes}%
+    \usebibmacro{series+number}%
+    \printfield{note}%
+    \usebibmacro{publisher+location+date}%
+    \usebibmacro{chapter+pages}%
+    }{}%
+    \fi
+    \usebibmacro{addendum+pubstate}\par}%
   {\centering\small\nopunct%
   \usebibmacro{doi+eprint+url}\par}%
 }{}{
