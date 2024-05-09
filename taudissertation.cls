@@ -572,7 +572,7 @@
     \begin{refcontext}[labelprefix=\@publicationname\addspace, sorting=none]
     \emergencystretch=2em
     \setlength{\bibitemsep}{8.5pt}
-    \DeclareFieldFormat{labelnumber}{\RN{##1}}
+    \DeclareFieldFormat{labelnumber}{\ifinteger{##1}{\RN{##1}}{##1}}
     \DeclareFieldFormat{labelnumberwidth}{##1}
     \printbibliography[%
         title=\@listpublicationname,%
